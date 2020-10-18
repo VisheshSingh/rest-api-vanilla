@@ -32,15 +32,22 @@ async function getProduct(req, res, id) {
 // @desc    Create a new product
 async function createProduct(req, res) {
   try {
-    const product = {
-      title: 'Sample product',
-      description: 'Sample product description',
-      price: 100,
-    };
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
 
-    const newProduct = await Product.create(product);
-    res.writeHead(201, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify(newProduct));
+    req.on('end', async () => {
+      const { title, description, price } = JSON.parse(body);
+      const product = {
+        title,
+        description,
+        price,
+      };
+      const newProduct = await Product.create(product);
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify(newProduct));
+    });
   } catch (error) {
     console.log(error);
   }
