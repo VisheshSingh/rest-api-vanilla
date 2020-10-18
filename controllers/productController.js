@@ -1,5 +1,7 @@
 const Product = require('../models/productModel');
 
+// @ROUTE   GET /api/products
+// @desc    Fetch all products
 async function getProducts(req, res) {
   try {
     const products = await Product.findAll();
@@ -10,6 +12,8 @@ async function getProducts(req, res) {
   }
 }
 
+// @ROUTE   GET /api/products/:id
+// @desc    Get single product
 async function getProduct(req, res, id) {
   try {
     const product = await Product.findById(id);
