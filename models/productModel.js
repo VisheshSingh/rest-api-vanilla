@@ -25,8 +25,18 @@ function create(product) {
   });
 }
 
+function update(id, product) {
+  return new Promise((resolve, reject) => {
+    const index = products.findIndex((p) => p.id === id);
+    products[index] = { ...product, id: uuid() };
+    writeDataToFile('./data/products.json', products);
+    resolve(products[index]);
+  });
+}
+
 module.exports = {
   findAll,
   findById,
   create,
+  update,
 };
